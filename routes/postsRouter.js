@@ -1,9 +1,7 @@
 const { Router } = require("express");
 const postsRouter = Router();
-const db = require("../prisma/queries");
+const { getPosts } = require("../controllers/postsController");
 
-postsRouter.get("/", (req, res) => {
-  res.json({ posts: [] });
-});
+postsRouter.get("/", getPosts);
 
 module.exports = postsRouter;

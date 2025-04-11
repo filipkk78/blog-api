@@ -2,17 +2,17 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-async function main() {
-  const allUsers = await prisma.user.findMany();
-  console.log(allUsers);
+async function getPosts() {
+  const allPosts = await prisma.post.findMany();
+  return allPosts;
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+async function getComments() {
+  const allComments = await prisma.comment.findMany();
+  return allComments;
+}
+
+module.exports = {
+  getComments,
+  getPosts,
+};

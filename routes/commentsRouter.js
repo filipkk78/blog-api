@@ -1,9 +1,7 @@
 const { Router } = require("express");
 const commentsRouter = Router();
-const db = require("../prisma/queries");
+const { getComments } = require("../controllers/commentsController");
 
-commentsRouter.get("/", (req, res) => {
-  res.json({ comments: [] });
-});
+commentsRouter.get("/", getComments);
 
 module.exports = commentsRouter;
