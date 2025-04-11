@@ -19,12 +19,28 @@ async function getComments() {
 }
 
 async function getUsers() {
-  const allUsers = await prisma.user.findMany();
+  const allUsers = await prisma.user.findMany({
+    include: {
+      posts: true,
+      comments: true,
+    },
+  });
   return allUsers;
+}
+
+async function addUser(email, name, password) {
+  const newUser = await prisma.user.create({
+    data: {
+      email: email,
+      name: name,
+      password: password,
+    },
+  });
 }
 
 module.exports = {
   getComments,
   getPosts,
   getUsers,
+  addUser,
 };
