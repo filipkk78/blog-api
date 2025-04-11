@@ -30,6 +30,14 @@ async function addPost(title, content, authorId) {
 }
 
 async function deletePost(id) {
+  const check = await prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!check) {
+    return "No post with requested id found";
+  }
   const deletePostComments = await prisma.comment.deleteMany({
     where: {
       postId: id,
@@ -40,6 +48,7 @@ async function deletePost(id) {
       id,
     },
   });
+  return `Deleted post with id ${id}`;
 }
 
 async function getComments() {
@@ -70,11 +79,20 @@ async function addComment(content, authorId, postId) {
 }
 
 async function deleteComment(id) {
+  const check = await prisma.comment.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!check) {
+    return "No comment with requested id found";
+  }
   const deleteComment = await prisma.comment.delete({
     where: {
       id,
     },
   });
+  return `Deleted comment with id ${id}`;
 }
 
 async function getUsers() {
@@ -110,6 +128,14 @@ async function addUser(email, name, password) {
 }
 
 async function deleteUser(id) {
+  const check = await prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!check) {
+    return "No user with requested id found";
+  }
   const deleteUserComments = await prisma.comment.deleteMany({
     where: {
       authorId: id,
@@ -125,6 +151,7 @@ async function deleteUser(id) {
       id,
     },
   });
+  return `Deleted user with id ${id}`;
 }
 
 module.exports = {

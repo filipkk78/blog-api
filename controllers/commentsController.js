@@ -22,9 +22,9 @@ async function addComment(req, res) {
 }
 
 async function deleteComment(req, res) {
-  await db.deleteComment(Number(req.params.id));
+  const message = await db.deleteComment(Number(req.params.id));
   res.json({
-    message: `deleted comment of id ${req.params.id}`,
+    message,
   });
 }
 

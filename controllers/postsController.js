@@ -18,9 +18,9 @@ async function addPost(req, res) {
 }
 
 async function deletePost(req, res) {
-  await db.deletePost(Number(req.params.id));
+  const message = await db.deletePost(Number(req.params.id));
   res.json({
-    message: `deleted post of id ${req.params.id}`,
+    message,
   });
 }
 
