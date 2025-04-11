@@ -22,6 +22,16 @@ async function getComments() {
   return allComments;
 }
 
+async function addComment(content, authorId, postId) {
+  const newComment = await prisma.comment.create({
+    data: {
+      content,
+      authorId,
+      postId,
+    },
+  });
+}
+
 async function getUsers() {
   const allUsers = await prisma.user.findMany({
     include: {
@@ -48,4 +58,5 @@ module.exports = {
   getUsers,
   addUser,
   addPost,
+  addComment,
 };
