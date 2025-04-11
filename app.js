@@ -1,12 +1,11 @@
 const express = require("express");
 const app = express();
+const indexRouter = require("./routes/indexRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Welcome to the api" });
-});
+app.use("/api", indexRouter);
 
 const PORT = 5000;
 app.listen(PORT, () => {
