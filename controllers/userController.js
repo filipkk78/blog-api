@@ -11,7 +11,15 @@ async function addUser(req, res) {
   });
 }
 
+async function deleteUser(req, res) {
+  await db.deleteUser(Number(req.params.id));
+  res.json({
+    message: `deleted user of id ${req.params.id}`,
+  });
+}
+
 module.exports = {
   getUsers,
   addUser,
+  deleteUser,
 };

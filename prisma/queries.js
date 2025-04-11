@@ -17,6 +17,19 @@ async function addPost(title, content, authorId) {
   });
 }
 
+async function deletePost(id) {
+  const deletePostComments = await prisma.comment.deleteMany({
+    where: {
+      postId: id,
+    },
+  });
+  const deletePost = await prisma.post.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 async function getComments() {
   const allComments = await prisma.comment.findMany();
   return allComments;
@@ -28,6 +41,14 @@ async function addComment(content, authorId, postId) {
       content,
       authorId,
       postId,
+    },
+  });
+}
+
+async function deleteComment(id) {
+  const deleteComment = await prisma.comment.delete({
+    where: {
+      id,
     },
   });
 }
@@ -52,12 +73,33 @@ async function addUser(email, name, password) {
   });
 }
 
+async function deleteUser(id) {
+  const deleteUserComments = await prisma.comment.deleteMany({
+    where: {
+      authorId: id,
+    },
+  });
+  const deleteUserPosts = await prisma.post.deleteMany({
+    where: {
+      authorId: id,
+    },
+  });
+  const deleteUser = await prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+}
+
 module.exports = {
   prisma,
-  getComments,
-  getPosts,
   getUsers,
+  getPosts,
+  getComments,
   addUser,
   addPost,
   addComment,
+  deleteUser,
+  deletePost,
+  deleteComment,
 };
