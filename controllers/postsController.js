@@ -4,6 +4,12 @@ async function getPosts(req, res) {
   res.json({ posts: await db.getPosts() });
 }
 
+async function getPost(req, res) {
+  res.json({
+    post: await db.getPostById(Number(req.params.id)),
+  });
+}
+
 async function addPost(req, res) {
   await db.addPost(req.body.title, req.body.content, Number(req.body.authorId));
   res.json({
@@ -20,6 +26,7 @@ async function deletePost(req, res) {
 
 module.exports = {
   getPosts,
+  getPost,
   addPost,
   deletePost,
 };

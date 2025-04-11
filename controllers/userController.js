@@ -4,6 +4,12 @@ async function getUsers(req, res) {
   res.json({ users: await db.getUsers() });
 }
 
+async function getUser(req, res) {
+  res.json({
+    user: await db.getUserById(Number(req.params.id)),
+  });
+}
+
 async function addUser(req, res) {
   await db.addUser(req.body.email, req.body.name, req.body.password);
   res.json({
@@ -20,6 +26,7 @@ async function deleteUser(req, res) {
 
 module.exports = {
   getUsers,
+  getUser,
   addUser,
   deleteUser,
 };

@@ -4,6 +4,12 @@ async function getComments(req, res) {
   res.json({ comments: await db.getComments() });
 }
 
+async function getComment(req, res) {
+  res.json({
+    comment: await db.getCommentById(Number(req.params.id)),
+  });
+}
+
 async function addComment(req, res) {
   await db.addComment(
     req.body.content,
@@ -24,6 +30,7 @@ async function deleteComment(req, res) {
 
 module.exports = {
   getComments,
+  getComment,
   addComment,
   deleteComment,
 };

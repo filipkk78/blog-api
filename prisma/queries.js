@@ -7,6 +7,18 @@ async function getPosts() {
   return allPosts;
 }
 
+async function getPostById(id) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!post) {
+    return "Post not found";
+  }
+  return post;
+}
+
 async function addPost(title, content, authorId) {
   const newPost = await prisma.post.create({
     data: {
@@ -35,6 +47,18 @@ async function getComments() {
   return allComments;
 }
 
+async function getCommentById(id) {
+  const comment = await prisma.comment.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!comment) {
+    return "Comment not found";
+  }
+  return comment;
+}
+
 async function addComment(content, authorId, postId) {
   const newComment = await prisma.comment.create({
     data: {
@@ -61,6 +85,18 @@ async function getUsers() {
     },
   });
   return allUsers;
+}
+
+async function getUserById(id) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!user) {
+    return "User not found";
+  }
+  return user;
 }
 
 async function addUser(email, name, password) {
@@ -96,6 +132,9 @@ module.exports = {
   getUsers,
   getPosts,
   getComments,
+  getUserById,
+  getPostById,
+  getCommentById,
   addUser,
   addPost,
   addComment,
