@@ -7,9 +7,13 @@ async function getPosts() {
   return allPosts;
 }
 
-async function addPost() {
+async function addPost(title, content, authorId) {
   const newPost = await prisma.post.create({
-    data: {},
+    data: {
+      title,
+      content,
+      authorId,
+    },
   });
 }
 
@@ -43,4 +47,5 @@ module.exports = {
   getPosts,
   getUsers,
   addUser,
+  addPost,
 };
