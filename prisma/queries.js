@@ -53,6 +53,7 @@ async function addUser(email, name, password) {
 }
 
 module.exports = {
+  prisma,
   getComments,
   getPosts,
   getUsers,
