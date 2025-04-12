@@ -33,13 +33,8 @@ async function deletePost(id) {
     },
   });
   if (!check) {
-    return "No post with requested id found";
+    return check;
   }
-  const deletePostComments = await prisma.comment.deleteMany({
-    where: {
-      postId: id,
-    },
-  });
   const deletePost = await prisma.post.delete({
     where: {
       id,
@@ -79,7 +74,7 @@ async function deleteComment(id) {
     },
   });
   if (!check) {
-    return "No comment with requested id found";
+    return check;
   }
   const deleteComment = await prisma.comment.delete({
     where: {
@@ -119,24 +114,14 @@ async function addUser(email, name, password) {
 }
 
 async function deleteUser(id) {
-  const check = await prisma.post.findUnique({
+  const check = await prisma.user.findUnique({
     where: {
       id,
     },
   });
   if (!check) {
-    return "No user with requested id found";
+    return check;
   }
-  const deleteUserComments = await prisma.comment.deleteMany({
-    where: {
-      authorId: id,
-    },
-  });
-  const deleteUserPosts = await prisma.post.deleteMany({
-    where: {
-      authorId: id,
-    },
-  });
   const deleteUser = await prisma.user.delete({
     where: {
       id,

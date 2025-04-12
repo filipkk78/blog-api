@@ -29,6 +29,11 @@ async function addComment(req, res) {
 
 async function deleteComment(req, res) {
   const message = await db.deleteComment(Number(req.params.id));
+  if (!message) {
+    return res.status(404).json({
+      error: "Comment not found",
+    });
+  }
   res.json({
     message,
   });

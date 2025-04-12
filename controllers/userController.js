@@ -7,7 +7,7 @@ async function getUsers(req, res) {
 async function getUser(req, res) {
   const user = await db.getUserById(Number(req.params.id));
   if (!user) {
-    res.status(404).json({
+    return res.status(404).json({
       error: "User not found",
     });
   }
@@ -25,6 +25,11 @@ async function addUser(req, res) {
 
 async function deleteUser(req, res) {
   const message = await db.deleteUser(Number(req.params.id));
+  if (!message) {
+    return res.status(404).json({
+      error: "User not found",
+    });
+  }
   res.json({
     message,
   });
