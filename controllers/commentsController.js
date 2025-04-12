@@ -5,8 +5,14 @@ async function getComments(req, res) {
 }
 
 async function getComment(req, res) {
+  const comment = await db.getCommentById(Number(req.params.id));
+  if (!comment) {
+    res.status(404).json({
+      error: "Comment not found",
+    });
+  }
   res.json({
-    comment: await db.getCommentById(Number(req.params.id)),
+    comment,
   });
 }
 

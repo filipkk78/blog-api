@@ -5,8 +5,14 @@ async function getPosts(req, res) {
 }
 
 async function getPost(req, res) {
+  const post = await db.getPostById(Number(req.params.id));
+  if (!post) {
+    res.status(404).json({
+      error: "Post not found",
+    });
+  }
   res.json({
-    post: await db.getPostById(Number(req.params.id)),
+    post,
   });
 }
 

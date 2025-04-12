@@ -13,9 +13,6 @@ async function getPostById(id) {
       id,
     },
   });
-  if (!post) {
-    return "Post not found";
-  }
   return post;
 }
 
@@ -62,9 +59,6 @@ async function getCommentById(id) {
       id,
     },
   });
-  if (!comment) {
-    return "Comment not found";
-  }
   return comment;
 }
 
@@ -111,9 +105,6 @@ async function getUserById(id) {
       id,
     },
   });
-  if (!user) {
-    return "User not found";
-  }
   return user;
 }
 
