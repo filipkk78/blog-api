@@ -39,9 +39,22 @@ async function deleteComment(req, res) {
   });
 }
 
+async function editComment(req, res) {
+  const message = await db.editComment(req.body.content, Number(req.params.id));
+  if (!message) {
+    return res.status(404).json({
+      error: "Comment not found",
+    });
+  }
+  res.json({
+    message,
+  });
+}
+
 module.exports = {
   getComments,
   getComment,
   addComment,
   deleteComment,
+  editComment,
 };

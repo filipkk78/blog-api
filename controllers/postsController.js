@@ -35,9 +35,26 @@ async function deletePost(req, res) {
   });
 }
 
+async function editPost(req, res) {
+  const message = await db.editPost(
+    req.body.title,
+    req.body.content,
+    Number(req.params.id)
+  );
+  if (!message) {
+    return res.status(404).json({
+      error: "Post not found",
+    });
+  }
+  res.json({
+    message,
+  });
+}
+
 module.exports = {
   getPosts,
   getPost,
   addPost,
   deletePost,
+  editPost,
 };
