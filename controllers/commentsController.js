@@ -11,10 +11,11 @@ async function getComment(req, res) {
     res.status(404).json({
       error: "Comment not found",
     });
+  } else {
+    res.json({
+      comment,
+    });
   }
-  res.json({
-    comment,
-  });
 }
 
 async function addComment(req, res) {

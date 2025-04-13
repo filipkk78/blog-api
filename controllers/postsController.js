@@ -11,10 +11,11 @@ async function getPost(req, res) {
     res.status(404).json({
       error: "Post not found",
     });
+  } else {
+    res.json({
+      post,
+    });
   }
-  res.json({
-    post,
-  });
 }
 
 async function addPost(req, res) {
