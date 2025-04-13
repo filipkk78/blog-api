@@ -1,4 +1,5 @@
 const db = require("../prisma/queries");
+const jwt = require("jsonwebtoken");
 
 async function getPosts(req, res) {
   res.json({ posts: await db.getPosts() });
@@ -17,37 +18,59 @@ async function getPost(req, res) {
 }
 
 async function addPost(req, res) {
-  await db.addPost(req.body.title, req.body.content, Number(req.body.authorId));
-  res.json({
-    message: `added post ${req.body.title} with author id ${req.body.authorId}`,
+  jwt.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      await db.addPost(
+        req.body.title,
+        req.body.content,
+        Number(req.body.authorId)
+      );
+      res.json({
+        message: `added post ${req.body.title} with author id ${req.body.authorId}`,
+      });
+    }
   });
 }
 
 async function deletePost(req, res) {
-  const message = await db.deletePost(Number(req.params.id));
-  if (!message) {
-    return res.status(404).json({
-      error: "Post not found",
-    });
-  }
-  res.json({
-    message,
+  jwt.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      const message = await db.deletePost(Number(req.params.id));
+      if (!message) {
+        return res.status(404).json({
+          error: "Post not found",
+        });
+      }
+      res.json({
+        message,
+      });
+    }
   });
 }
 
 async function editPost(req, res) {
-  const message = await db.editPost(
-    req.body.title,
-    req.body.content,
-    Number(req.params.id)
-  );
-  if (!message) {
-    return res.status(404).json({
-      error: "Post not found",
-    });
-  }
-  res.json({
-    message,
+  jwt.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      const message = await db.editPost(
+        req.body.title,
+        req.body.content,
+        Number(req.params.id)
+      );
+      if (!message) {
+        return res.status(404).json({
+          error: "Post not found",
+        });
+      }
+      res.json({
+        message,
+      });
+    }
   });
 }
 

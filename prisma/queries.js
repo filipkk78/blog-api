@@ -2,6 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const bcrypt = require("bcryptjs");
+
 async function getPosts() {
   const allPosts = await prisma.post.findMany();
   return allPosts;
@@ -144,7 +146,7 @@ async function addUser(email, name, password) {
     data: {
       email: email,
       name: name,
-      password: password,
+      password: await bcrypt.hash(password, 10),
     },
   });
 }
@@ -166,6 +168,15 @@ async function deleteUser(id) {
   return `Deleted user with id ${id}`;
 }
 
+async function getUserByEmail(userEmail) {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: userEmail,
+    },
+  });
+  return user;
+}
+
 module.exports = {
   prisma,
   getUsers,
@@ -182,4 +193,5 @@ module.exports = {
   deleteComment,
   editPost,
   editComment,
+  getUserByEmail,
 };
