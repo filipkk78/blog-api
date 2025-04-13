@@ -63,18 +63,24 @@ async function deletePost(id) {
   return `Deleted post with id ${id}`;
 }
 
-async function editPost(title, content, id) {
+async function togglePublishPost(id) {
   try {
-    const editedPost = await prisma.post.update({
+    const post = await prisma.post.findUnique({
       where: {
         id,
       },
-      data: {
-        title,
-        content,
-      },
     });
-    return `Edited post with id ${id}`;
+    if (post) {
+      const editedPost = await prisma.post.update({
+        where: {
+          id,
+        },
+        data: {
+          published: !post.published,
+        },
+      });
+      return `Edited post with id ${id}`;
+    }
   } catch (err) {
     return null;
   }
@@ -190,7 +196,7 @@ module.exports = {
   deleteUser,
   deletePost,
   deleteComment,
-  editPost,
+  togglePublishPost,
   getUserByEmail,
   getPublishedPosts,
 };

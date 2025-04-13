@@ -70,11 +70,7 @@ async function editPost(req, res) {
     if (err) {
       res.sendStatus(403);
     } else {
-      const message = await db.editPost(
-        req.body.title,
-        req.body.content,
-        Number(req.params.id)
-      );
+      const message = await db.togglePublishPost(Number(req.params.id));
       if (!message) {
         return res.status(404).json({
           error: "Post not found",
