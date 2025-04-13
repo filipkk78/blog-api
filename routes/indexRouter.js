@@ -5,6 +5,7 @@ const postsRouter = require("./postsRouter");
 const usersRouter = require("./userRouter");
 const jwt = require("jsonwebtoken");
 const passport = require("../middleware/passportConfig");
+const verifyToken = require("../middleware/verifyToken");
 require("dotenv").config();
 
 indexRouter.get("/", (req, res) => {
@@ -27,6 +28,10 @@ indexRouter.post(
     );
   }
 );
+
+indexRouter.get("/authorize", verifyToken, (req, res) => {
+  res.json({ authorized: true });
+});
 
 indexRouter.use("/comments", commentsRouter);
 indexRouter.use("/posts", postsRouter);
