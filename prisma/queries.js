@@ -6,11 +6,7 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 async function getPosts() {
-  const allPosts = await prisma.post.findMany({
-    include: {
-      comments: true,
-    },
-  });
+  const allPosts = await prisma.post.findMany();
   return allPosts;
 }
 
@@ -20,7 +16,11 @@ async function getPostById(id) {
       id,
     },
     include: {
-      comments: true,
+      comments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
   return post;
