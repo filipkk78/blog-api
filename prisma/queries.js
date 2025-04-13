@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
 async function getPosts() {
   const allPosts = await prisma.post.findMany();
@@ -79,11 +80,11 @@ async function getCommentById(id) {
   return comment;
 }
 
-async function addComment(content, authorId, postId) {
+async function addComment(content, authorName, postId) {
   const newComment = await prisma.comment.create({
     data: {
       content,
-      authorId,
+      authorName,
       postId,
     },
   });
@@ -126,22 +127,19 @@ async function getUsers() {
   const allUsers = await prisma.user.findMany({
     include: {
       posts: true,
-      comments: true,
+      password: false,
     },
   });
   return allUsers;
 }
 
-async function getUserById(id) {
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-  return user;
-}
-
-async function addUser(email, name, password) {
+async function addUser(email, name, password, adminPwd) {
+  if (adminPwd !== process.env.ADMIN_PWD) {
+    return "Invalid admin password";
+  }
+  if (await getUserByEmail(email)) {
+    return "This email is already taken";
+  }
   const newUser = await prisma.user.create({
     data: {
       email: email,
@@ -149,6 +147,7 @@ async function addUser(email, name, password) {
       password: await bcrypt.hash(password, 10),
     },
   });
+  return `Added user ${name} with ${email} email`;
 }
 
 async function deleteUser(id) {
@@ -182,7 +181,6 @@ module.exports = {
   getUsers,
   getPosts,
   getComments,
-  getUserById,
   getPostById,
   getCommentById,
   addUser,

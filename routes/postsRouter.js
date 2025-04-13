@@ -12,7 +12,7 @@ const verifyToken = require("../middleware/verifyToken");
 
 postsRouter.get("/", getPosts);
 postsRouter.get("/:id", getPost);
-postsRouter.post("/", addPost);
+postsRouter.post("/", verifyToken, addPost);
 postsRouter.delete("/:id", verifyToken, deletePost);
 postsRouter.put("/:id", verifyToken, editPost);
 

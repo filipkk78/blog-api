@@ -20,6 +20,7 @@ async function getPost(req, res) {
 async function addPost(req, res) {
   jwt.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
     if (err) {
+      console.log(err);
       res.sendStatus(403);
     } else {
       await db.addPost(

@@ -8,10 +8,12 @@ const {
   editComment,
 } = require("../controllers/commentsController");
 
+const verifyToken = require("../middleware/verifyToken");
+
 commentsRouter.get("/", getComments);
 commentsRouter.get("/:id", getComment);
 commentsRouter.post("/", addComment);
-commentsRouter.delete("/:id", deleteComment);
-commentsRouter.put("/:id", editComment);
+commentsRouter.delete("/:id", verifyToken, deleteComment);
+commentsRouter.put("/:id", verifyToken, editComment);
 
 module.exports = commentsRouter;
