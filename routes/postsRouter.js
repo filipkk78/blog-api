@@ -6,11 +6,13 @@ const {
   addPost,
   deletePost,
   editPost,
+  getPublishedPosts,
 } = require("../controllers/postsController");
 
 const verifyToken = require("../middleware/verifyToken");
 
-postsRouter.get("/", getPosts);
+postsRouter.get("/", verifyToken, getPosts);
+postsRouter.get("/published", getPublishedPosts);
 postsRouter.get("/:id", getPost);
 postsRouter.post("/", verifyToken, addPost);
 postsRouter.delete("/:id", verifyToken, deletePost);

@@ -2,7 +2,18 @@ const db = require("../prisma/queries");
 const jwt = require("jsonwebtoken");
 
 async function getPosts(req, res) {
-  res.json({ posts: await db.getPosts() });
+  jwt.verify(req.token, process.env.JWT_SECRET, async (err, authData) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(403);
+    } else {
+      res.json({ posts: await db.getPosts() });
+    }
+  });
+}
+
+async function getPublishedPosts(req, res) {
+  res.json({ posts: await db.getPublishedPosts() });
 }
 
 async function getPost(req, res) {
@@ -82,4 +93,5 @@ module.exports = {
   addPost,
   deletePost,
   editPost,
+  getPublishedPosts,
 };

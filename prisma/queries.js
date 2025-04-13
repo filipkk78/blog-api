@@ -10,10 +10,20 @@ async function getPosts() {
   return allPosts;
 }
 
+async function getPublishedPosts() {
+  const allPosts = await prisma.post.findMany({
+    where: {
+      published: true,
+    },
+  });
+  return allPosts;
+}
+
 async function getPostById(id) {
   const post = await prisma.post.findUnique({
     where: {
       id,
+      published: true,
     },
     include: {
       comments: {
@@ -114,22 +124,6 @@ async function deleteComment(id) {
   return `Deleted comment with id ${id}`;
 }
 
-async function editComment(content, id) {
-  try {
-    const editedPost = await prisma.comment.update({
-      where: {
-        id,
-      },
-      data: {
-        content,
-      },
-    });
-    return `Edited comment with id ${id}`;
-  } catch (err) {
-    return null;
-  }
-}
-
 async function getUsers() {
   const allUsers = await prisma.user.findMany({
     include: {
@@ -197,6 +191,6 @@ module.exports = {
   deletePost,
   deleteComment,
   editPost,
-  editComment,
   getUserByEmail,
+  getPublishedPosts,
 };
