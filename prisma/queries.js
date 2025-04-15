@@ -6,7 +6,11 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 async function getPosts() {
-  const allPosts = await prisma.post.findMany();
+  const allPosts = await prisma.post.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
   return allPosts;
 }
 
