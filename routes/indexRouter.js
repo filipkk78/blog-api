@@ -19,7 +19,7 @@ indexRouter.post(
     jwt.sign(
       { user: req.user },
       process.env.JWT_SECRET,
-      { expiresIn: "300s" },
+      { expiresIn: "1h" },
       (err, token) => {
         res.json({
           token,
